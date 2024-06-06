@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM ubuntu:jammy
+FROM debian:bookworm-slim
 
 # Copies script for construction of AGREE tool into the container
 COPY make_agree.sh /make_agree.sh

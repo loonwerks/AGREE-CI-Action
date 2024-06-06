@@ -19,7 +19,7 @@ MANIFEST := $(DOCKERHUB)$(TOOLS_IMG):$(DOCKER_TAG)
 base_tools:
 	docker pull debian:bookworm-slim
 	$(DOCKER_BUILD) $(DOCKER_FLAGS) \
-		-f Dockerfile \
+		-f tools.dockerfile \
 		-t $(TOOLS_IMG) \
 		.
 rebuild_base_tools: DOCKER_FLAGS += --no-cache
@@ -48,7 +48,7 @@ user_run:
 .PHONY: build_user
 build_user:
 	$(DOCKER_BUILD) $(DOCKER_FLAGS) \
-		--build-arg=EXTRAS_IMG=$(USER_BASE_IMG) \
+		--build-arg=USER_BASE_IMG=$(USER_BASE_IMG) \
 		--build-arg=UNAME=$(shell whoami) \
 		--build-arg=UID=$(shell id -u) \
 		-f user.dockerfile \
