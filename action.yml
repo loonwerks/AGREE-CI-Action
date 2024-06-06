@@ -1,0 +1,16 @@
+# action.yml
+name: 'AGREE-CI-Action'
+description: 'Conduct AGREE analysis on a component of an AADL model'
+inputs:
+  component-to-analyze:  # id of input
+    description: 'The name of the component on which to conduct analysis'
+    required: true
+    default: 'Top.impl'
+outputs:
+  result: # id of output
+    description: 'JSON-formatted summary of results of the analysis'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.component-to-analyze }}
