@@ -2,10 +2,25 @@
 name: 'AGREE-CI-Action'
 description: 'Conduct AGREE analysis on a component of an AADL model'
 inputs:
+  workspace-location: # dir of workspace
+    description: 'The path to the workspace containing the AADL projects (equivalent to -path option for headless Eclipse)'
+    required: false
+    default: '.'
+  project-name:
+    description: 'The name of the AADL project containing the model to analyze'
+    required: true
+    default: 'Top'
   component-to-analyze:  # id of input
     description: 'The name of the component on which to conduct analysis'
     required: true
     default: 'Top.impl'
+  analysis-strategy: # agree analysis type
+    description: 'The agree analysis strategy to employ'
+    required: false
+    default: 'single'
+  optional-flags:
+    description: 'Optional flags, see https://github.com/loonwerks/AGREE/tree/master/com.rockwellcollins.atc.agree.cli#readme for the complete list'
+    required: false
 outputs:
   result: # id of output
     description: 'JSON-formatted summary of results of the analysis'
@@ -13,4 +28,8 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.workspace-location }}
+    - ${{ inputs.project-name }}
     - ${{ inputs.component-to-analyze }}
+    - ${{ inputs.analysis-strategy }}
+    - ${{ inputs.optional-flags }}
