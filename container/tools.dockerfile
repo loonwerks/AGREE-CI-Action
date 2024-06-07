@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM debian:bookworm-slim
+FROM debian:bullseye-slim
 
 # Fetch some basics
 RUN apt-get update -q \
@@ -7,6 +7,9 @@ RUN apt-get update -q \
         ca-certificates \
         curl \
         tar \
+	xauth \
+	libgtk-3-0 \
+	xvfb \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
     && rm -rf /var/lib/{apt,dpkg,cache,log}/

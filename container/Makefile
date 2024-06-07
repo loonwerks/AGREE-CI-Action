@@ -1,5 +1,6 @@
-DOCKERHUB ?= 
-PREFIX ?= loonwerks-agree-
+DOCKERHUB ?= ghcr.io
+NAMESPACE ?= loonwerks
+PREFIX ?= $(DOCKERHUB)/$(NAMESPACE)/agree-
 DOCKER_TAG ?= 0.1.0
 TOOLS_IMG := $(PREFIX)tools
 USER_BASE_IMG := $(TOOLS_IMG)
@@ -9,25 +10,15 @@ HOST_DIR ?= $(shell pwd)
 DOCKER_BUILD ?= docker build
 DOCKER_FLAGS ?= --force-rm=true
 
-MANIFEST := $(DOCKERHUB)$(TOOLS_IMG):$(DOCKER_TAG)
-
-
-################################################
-# Build dependencies for Linux and OpenUxAS
-#################################################
 .PHONY: base_tools rebuild_base_tools
 base_tools:
-	docker pull debian:bookworm-slim
+	docker pull debian:bullseye-slim
 	$(DOCKER_BUILD) $(DOCKER_FLAGS) \
 		-f tools.dockerfile \
-		-t $(TOOLS_IMG) \
+		-t $(TOOLS_IMG):$(DOCKER_TAG) \
 		.
 rebuild_base_tools: DOCKER_FLAGS += --no-cache
 rebuild_base_tools: base_tools
-
-.PHONY: create_manifest
-create_manifest: base_tools
-	docker manifest create $(MANIFEST) $(TOOLS_IMG)
 
 .PHONY: all
 all: base_tools
@@ -48,7 +39,7 @@ user_run:
 .PHONY: build_user
 build_user:
 	$(DOCKER_BUILD) $(DOCKER_FLAGS) \
-		--build-arg=USER_BASE_IMG=$(USER_BASE_IMG) \
+		--build-arg=USER_BASE_IMG=$(USER_BASE_IMG):$(DOCKER_TAG) \
 		--build-arg=UNAME=$(shell whoami) \
 		--build-arg=UID=$(shell id -u) \
 		-f user.dockerfile \
@@ -67,12 +58,8 @@ clean_data: clean_home_dir
 .PHONY: clean_images
 clean_images:
 	-docker rmi $(USER_IMG)-$(shell id -u) 
-	-docker rmi $(DOCKERHUB)$(TOOLS_IMG)
-
-.PHONY: clean_manifest
-clean_manifest:
-	rm -f $(MANIFEST)
+	-docker rmi $(TOOLS_IMG)
 
 .PHONY: clean
-clean: clean_data clean_images clean_manifest
+clean: clean_data clean_images
 
