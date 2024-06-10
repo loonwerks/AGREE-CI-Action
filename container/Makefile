@@ -1,7 +1,7 @@
 DOCKERHUB ?= ghcr.io
 NAMESPACE ?= loonwerks
 PREFIX ?= $(DOCKERHUB)/$(NAMESPACE)/agree-
-DOCKER_TAG ?= 0.1.0
+DOCKER_TAG ?= 0.1.1
 TOOLS_IMG := $(PREFIX)tools
 USER_BASE_IMG := $(TOOLS_IMG)
 USER_IMG := $(PREFIX)user-img

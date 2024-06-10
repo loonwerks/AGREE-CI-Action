@@ -1,5 +1,6 @@
 # Container image that runs your code
 FROM debian:bullseye-slim
+LABEL org.opencontainers.image.source="https://github.com/loonwerks/AGREE-CI-Action"
 
 # Fetch some basics
 RUN apt-get update -q \
