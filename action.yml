@@ -22,8 +22,12 @@ inputs:
     description: 'Optional flags, see https://github.com/loonwerks/AGREE/tree/master/com.rockwellcollins.atc.agree.cli#readme for the complete list'
     required: false
 outputs:
-  result: # id of output
-    description: 'JSON-formatted summary of results of the analysis'
+  timestamp:
+    description: 'The date/time that the analysis was completed'
+  status:
+    description: 'Summary of analysis completion status'
+  status-messages: 
+    description: 'Description of analysis completion status'
 runs:
   using: 'docker'
   image: 'Dockerfile'
