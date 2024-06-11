@@ -7,10 +7,11 @@ RUN apt-get update -q \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
+        jq \
+        libgtk-3-0 \
         tar \
-	xauth \
-	libgtk-3-0 \
-	xvfb \
+        xauth \
+        xvfb \
     && apt-get clean autoclean \
     && apt-get autoremove --yes \
     && rm -rf /var/lib/{apt,dpkg,cache,log}/
