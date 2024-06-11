@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM ghcr.io/loonwerks/agree-tools:0.1.2
+FROM ghcr.io/loonwerks/agree-tools:0.1.3
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
